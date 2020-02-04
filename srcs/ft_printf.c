@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <unistd.h>
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 int ft_printf(const char *fmt, ...)
 {

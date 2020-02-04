@@ -6,13 +6,13 @@
 #    By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/20 13:00:20 by ltouret           #+#    #+#              #
-#    Updated: 2020/02/04 13:56:06 by ltouret          ###   ########.fr        #
+#    Updated: 2020/02/04 19:17:05 by ltouret          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 
-SRCS = ft_printf.c
+SRCS = srcs/ft_printf.c
 
 OBJS = ${SRCS:.c=.o}
 
@@ -22,20 +22,22 @@ RM		= rm -f
 CFLAGS = -Wall -Wextra -Werror
 
 .c.o:
-		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+		@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 $(NAME): ${OBJS}
-		make -C libft/
-		cp libft/libft.a ./${NAME}
-		ar rcs ${NAME} ${OBJS}
+		@make -C libft/ bonus
+		@cp libft/libft.a ./${NAME}
+		@ar rcs ${NAME} ${OBJS}
 
 all:	${NAME}
 
 clean:
 		${RM} ${OBJS}
+		make -C libft/ clean
 
 fclean:	clean
 		${RM} ${NAME}
+		${RM} libft/libft.a
 
 re:		fclean all
 
