@@ -6,7 +6,7 @@
 #    By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/20 13:00:20 by ltouret           #+#    #+#              #
-#    Updated: 2020/02/04 19:06:52 by ltouret          ###   ########.fr        #
+#    Updated: 2020/02/06 14:00:31 by ltouret          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,13 +32,13 @@ RM		= rm -f
 CFLAGS = -Wall -Wextra -Werror
 
 .c.o:
-		@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 $(NAME): ${OBJS}
-		@ar rcs ${NAME} ${OBJS}
+		ar rcs ${NAME} ${OBJS}
 
 bonus:	${OBJS} ${OBJSBONUS}
-		@ar rcs ${NAME} ${OBJS} ${OBJSBONUS}
+		ar rcs ${NAME} ${OBJS} ${OBJSBONUS}
 
 all:	${NAME}
 

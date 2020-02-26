@@ -6,7 +6,7 @@
 /*   By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 18:48:36 by ltouret           #+#    #+#             */
-/*   Updated: 2019/10/28 12:52:41 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/02/26 16:39:53 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int		ft_len(int nb)
 
 char	*ft_itoa(int n)
 {
-	int			i;
-	long int	temp;
-	char		*str;
+	int		i;
+	int		temp;
+	char	*str;
 
 	i = ft_len(n);
-	temp = (long int)(n);
+	temp = n;
 	if ((str = (char*)malloc((i + 1) * sizeof(char))))
 	{
 		str[i--] = '\0';

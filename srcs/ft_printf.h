@@ -6,7 +6,7 @@
 /*   By: ltouret <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 13:33:51 by ltouret           #+#    #+#             */
-/*   Updated: 2020/02/04 13:34:28 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/02/18 19:11:38 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,16 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
+# include <stdarg.h>
 
+typedef struct		s_block
+{
+	char	*raw_block;
+	int		wildcard[2];
+	char	*converted;
+	void	*param;
+	char	type;
+}					t_block;
 int					ft_printf(const char *fmt, ...);
-char				*ft_itoa(int n);
-void				ft_putchar_fd(char c, int fd);
-void				ft_putendl_fd(char *s, int fd);
-void				ft_putstr_fd(char *s, int fd);
 
 #endif

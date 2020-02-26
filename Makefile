@@ -6,7 +6,7 @@
 #    By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/20 13:00:20 by ltouret           #+#    #+#              #
-#    Updated: 2020/02/04 19:17:05 by ltouret          ###   ########.fr        #
+#    Updated: 2020/02/26 18:00:23 by ltouret          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,15 +19,15 @@ OBJS = ${SRCS:.c=.o}
 CC		= cc
 RM		= rm -f
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 
 .c.o:
-		@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 $(NAME): ${OBJS}
-		@make -C libft/ bonus
-		@cp libft/libft.a ./${NAME}
-		@ar rcs ${NAME} ${OBJS}
+		make -C libft/ bonus
+		cp libft/libft.a ./${NAME}
+		ar rcs ${NAME} ${OBJS}
 
 all:	${NAME}
 
@@ -41,6 +41,13 @@ fclean:	clean
 
 re:		fclean all
 
-test:	all
-		@cc test.c libftprintf.a && ./a.out
+test:	${OBJS}
+		make -C libft/ bonus 
+		cp libft/libft.a ./${NAME}
+		ar rcs ${NAME} ${OBJS}
+		${CC} ${CFLAGS} test.c libftprintf.a
+		#diff -c dif.txt dif2.txt
+		@echo "\n--------- OUTPUT : ---------"
+		@./a.out
+
 .PHONY: all clean fclean re
