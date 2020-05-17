@@ -6,7 +6,7 @@
 /*   By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 18:03:55 by ltouret           #+#    #+#             */
-/*   Updated: 2020/05/16 20:05:49 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/05/18 00:12:06 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,20 @@
 
 void	test_print(char *fmt, t_list *lst)
 {
-	int i;
+	int		i;
+	int		out;
 
 	i = 0;
+	out = 0;
 	printf("%s", fmt);
-	while (fmt && i < ft_strlen(fmt))
+	while (i < ft_strlen(fmt))
 	{
 		while (fmt[i] == '%' && fmt[i++])
 		{
 			if (lst)
 			{
 				printf("%s", ((t_block*)lst->content)->converted);
+				out += ft_strlen(((t_block*)lst->content)->converted);
 				lst = lst->next;
 			}
 			i = find_term_char(fmt + i) + i + 1;
@@ -35,6 +38,7 @@ void	test_print(char *fmt, t_list *lst)
 		printf("%c", fmt[i]);
 		i++;
 	}
+	printf("len: %d\n", out);
 }
 
 int		ft_printf(char *str, ...)
