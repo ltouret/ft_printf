@@ -35,11 +35,6 @@ int		str_wid(t_block *block, int wid, int minus)
 	return (1);
 }
 
-/*int		check_pre(t_block *block)
-{
-	int		i;
-}*/
-
 int		get_pre(t_block *block)
 {
 	int		i;
@@ -58,7 +53,7 @@ int		wid_len(t_block *block)
 	int		len;
 
 	len = ft_strlen(block->converted);
-	if (block->type == 'c' && (*(char *)block->raw_block == '\0'))
+	if (block->type == 'c' && (*(char *)block->param == '\0'))
 		len++;
 	return (len);
 }
@@ -146,7 +141,6 @@ int		apply_mod(t_list *lst) // this goes to apply_mod.c
 		if (check_wldcards(lst) == -1)
 			return (-1);
 		get_flags(lst, &zero, &minus);
-		printf("flags: %d %d\n", zero, minus);
 		if (apply_pre(lst) == -1)
 			return (-1);
 		if (apply_wid(lst, zero, minus) == -1)
@@ -158,13 +152,29 @@ int		apply_mod(t_list *lst) // this goes to apply_mod.c
 
 int main()
 {
+	printf("pr len: %d\n", printf("%c", '\0'));
+	ft_printf("%c", '\0');
+	printf("pr len: %d\n", printf("%c", 'a'));
+	ft_printf("%c", 'a');
+	/*
 	char *test = "hello %*.*d %.3d %-5d %u %p %c%s %%\n";
 	ft_printf(test, 5, 4, -10, 1, 4, 3, "n", 'a', "sapo");
-	printf("%.0s\n", "heelo");
+	printf("hislen: %d\n", printf(test,  5, 4, -10, 1, 4, 3, "n", 'a', "sapo"));
+	printf("hislen: %d\n", printf("li%-5cli\n", 'a'));
+	printf("hislen: %d\n", printf("%c", '\0'));
+	ft_printf("%c", '\0');
+	ft_printf("li%-5cli\n", 'a');
+	*/
+	//ft_printf("%05d\n", -3);
+	//ft_printf("mine:%5c\n", '\0');
+	//printf("hiss:%5c\n", '\0');
+	/*printf("%.0s\n", "heelo");
 	printf("%.0d\n", 0);
 	printf ("%-.10s\n", "hey");
 	printf("%c\n", '\0');
-	ft_printf("%05d\n", -3);
+	int a = printf("%d %% a\n", 30);
+	printf("%d\n", a);
+	printf("%d\n", printf("%c\n", '-'));*/
 	//printf("\ntest : %*.*d\n", 10, 6, 12359);
 	/*printf("");
 	printf("%%");
