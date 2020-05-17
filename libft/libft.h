@@ -6,7 +6,7 @@
 /*   By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 08:03:48 by ltouret           #+#    #+#             */
-/*   Updated: 2020/02/26 18:28:48 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/05/15 18:55:23 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 int					ft_atoi(const char *str);
+int					ft_find(char *str, int c);
 void				ft_bzero(void *s, size_t n);
 void				*ft_calloc(size_t count, size_t size);
 int					ft_isalnum(int c);

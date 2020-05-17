@@ -6,20 +6,22 @@
 #    By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/20 13:00:20 by ltouret           #+#    #+#              #
-#    Updated: 2020/02/26 18:00:23 by ltouret          ###   ########.fr        #
+#    Updated: 2020/05/16 22:40:04 by ltouret          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 
-SRCS = srcs/ft_printf.c
+SRCS = srcs/ft_printf.c srcs/utoa.c srcs/convert_func.c srcs/convert_func2.c\
+srcs/convert.c srcs/get_param.c srcs/parsing_str.c srcs/apply_mod.c\
+srcs/apply_pre.c
 
 OBJS = ${SRCS:.c=.o}
 
 CC		= cc
 RM		= rm -f
 
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror #-g3 -fsanitize=address
 
 .c.o:
 		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
@@ -45,7 +47,7 @@ test:	${OBJS}
 		make -C libft/ bonus 
 		cp libft/libft.a ./${NAME}
 		ar rcs ${NAME} ${OBJS}
-		${CC} ${CFLAGS} test.c libftprintf.a
+		${CC} ${CFLAGS} libftprintf.a
 		#diff -c dif.txt dif2.txt
 		@echo "\n--------- OUTPUT : ---------"
 		@./a.out
