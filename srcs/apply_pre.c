@@ -6,13 +6,13 @@
 /*   By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 22:36:51 by ltouret           #+#    #+#             */
-/*   Updated: 2020/05/16 22:56:23 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/05/17 18:53:42 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		handle_minus(t_block *block, int *minus)
+int		handle_minus_pre(t_block *block, int *minus)
 {
 	char	*tmp;
 
@@ -59,7 +59,7 @@ int		int_pre(t_block *block, int precision)
 	int		len;
 	int		minus;
 
-	if (handle_minus(block, &minus) == -1)
+	if (handle_minus_pre(block, &minus) == -1)
 		return (-1);
 	len = ft_strlen(block->converted);
 	if (precision > len)

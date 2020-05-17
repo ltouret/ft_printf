@@ -6,7 +6,7 @@
 /*   By: ltouret <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 17:25:36 by ltouret           #+#    #+#             */
-/*   Updated: 2020/05/16 22:50:51 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/05/17 18:54:48 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct		s_block
 	char	type;
 }					t_block;
 void				test_print(char *fmt, t_list *lst); //erase dis most likely
-int					handle_minus(t_block *block, int *minus);
+int					handle_minus_pre(t_block *block, int *minus);
 int					int_pre_special(t_block *block, int precision, int minus);
 int					int_pre(t_block *block, int precision);
 int					str_pre(t_block *block, int precision);
