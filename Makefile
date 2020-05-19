@@ -6,7 +6,7 @@
 #    By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/20 13:00:20 by ltouret           #+#    #+#              #
-#    Updated: 2020/05/16 22:40:04 by ltouret          ###   ########.fr        #
+#    Updated: 2020/05/19 16:25:50 by ltouret          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = libftprintf.a
 
 SRCS = srcs/ft_printf.c srcs/utoa.c srcs/convert_func.c srcs/convert_func2.c\
 srcs/convert.c srcs/get_param.c srcs/parsing_str.c srcs/apply_mod.c\
-srcs/apply_pre.c
+srcs/apply_pre.c srcs/apply_wid.c srcs/apply_wid_int.c
 
 OBJS = ${SRCS:.c=.o}
 

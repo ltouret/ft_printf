@@ -6,7 +6,7 @@
 /*   By: ltouret <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 17:25:36 by ltouret           #+#    #+#             */
-/*   Updated: 2020/05/17 18:54:48 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/05/19 16:27:22 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ typedef struct		s_block
 	char	type;
 }					t_block;
 void				test_print(char *fmt, t_list *lst); //erase dis most likely
+int					get_pre(t_block *block); //erase if not necessary
+int					wid_len(t_block *block);
+void				handle_minus_wid(t_block *block, int zero);
+int					int_wid(t_block *block, int wid, int minus, int zero);
+int					str_wid(t_block *block, int wid, int minus);
+int					apply_wid(t_list *current, int zero, int minus);
 int					handle_minus_pre(t_block *block, int *minus);
 int					int_pre_special(t_block *block, int precision, int minus);
 int					int_pre(t_block *block, int precision);
@@ -39,7 +45,7 @@ int					apply_pre(t_list *current);
 int					replace_wldcard(t_list *current, int i, int wild_index);
 int					check_wldcards(t_list *current);
 void				get_flags(t_list *current, int *zero, int *minus);
-//int					apply_mod(t_list *lst); // get this back into apply_mod.c
+int					apply_mod(t_list *lst); // get this back into apply_mod.c
 int					find_term_char(char *str);
 char				*str_index_dup(char *str, int start, int end);
 char				get_type(char *block);

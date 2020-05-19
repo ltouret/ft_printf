@@ -6,7 +6,7 @@
 /*   By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 19:55:21 by ltouret           #+#    #+#             */
-/*   Updated: 2020/05/18 00:27:09 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/05/19 16:27:06 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,25 @@ void	get_flags(t_list *current, int *zero, int *minus)
 		block++;
 	}
 	return ;
+}
+
+int		apply_mod(t_list *lst) // this goes to apply_mod.c
+{
+	int	zero;
+	int	minus;
+
+	while (lst)
+	{
+		zero = 0;
+		minus = 0;
+		if (check_wldcards(lst) == -1)
+			return (-1);
+		get_flags(lst, &zero, &minus);
+		if (apply_pre(lst) == -1)
+			return (-1);
+		if (apply_wid(lst, zero, minus) == -1)
+			return (-1);
+		lst = lst->next;
+	}
+	return 1;
 }
