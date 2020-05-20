@@ -6,13 +6,11 @@
 /*   By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 19:32:22 by ltouret           #+#    #+#             */
-/*   Updated: 2020/05/16 19:33:27 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/05/20 15:42:43 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-// TODO ERASE PRINTFS
 
 int		convert_c(t_list *current)
 {
@@ -21,7 +19,6 @@ int		convert_c(t_list *current)
 		((t_block*)current->content)->converted[0] =
 			*(char *)((t_block*)current->content)->param;
 		((t_block*)current->content)->converted[1] = '\0';
-		printf("%c\n", *((t_block*)current->content)->converted);
 		return (1);
 	}
 	return (-1);
@@ -32,15 +29,12 @@ int		convert_str(t_list *current)
 	char			*arg;
 
 	arg = (char *)((t_block*)current->content)->param;
-	if ((((t_block*)current->content)->converted = arg))
+	if (arg)
 	{
-		printf("%s\n", ((t_block*)current->content)->converted);
-		return (1);
+		if ((((t_block*)current->content)->converted = ft_strdup(arg)))
+			return (1);
 	}
 	else if ((((t_block*)current->content)->converted = ft_strdup("(null)")))
-	{
-		printf("%s\n", ((t_block*)current->content)->converted);
 		return (1);
-	}
 	return (-1);
 }

@@ -6,49 +6,68 @@
 /*   By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 18:03:55 by ltouret           #+#    #+#             */
-/*   Updated: 2020/05/19 16:31:48 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/05/20 18:21:52 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-//#include "../test.c"
 
-// TODO ERASE INCLUDES AND PRINTFS
+void	clear_block(void *content)
+{
+	t_block		*block;
 
-void	test_print(char *fmt, t_list *lst)
+	block = content;
+	if (block->raw_block)
+		free(block->raw_block);
+	if (block->param && block->type != 's' && block->type != 'p')
+		free(block->param);
+	if (block->wildcard[0])
+		free(block->wildcard[0]);
+	if (block->wildcard[1])
+		free(block->wildcard[1]);
+	if (block->converted)
+		free(block->converted);
+	free(block);
+}
+
+int		print_char(char *str, t_list *lst)
 {
 	int		i;
 	int		out;
 
-	i = 0;
+	i = -1;
 	out = 0;
-	printf("%s", fmt);
-	while (i < ft_strlen(fmt))
+	while (++i < ft_strlen(str))
 	{
-		while (fmt[i] == '%' && fmt[i++])
+		while (str[i] == '%' && str[i++])
 		{
 			if (lst)
 			{
-				printf("%s", ((t_block*)lst->content)->converted);
+				ft_putstr_fd(((t_block*)lst->content)->converted, 1);
 				out += ft_strlen(((t_block*)lst->content)->converted);
+				if (*((t_block*)lst->content)->converted == '\0' &&
+					((t_block*)lst->content)->type == 'c')
+					out++;
 				lst = lst->next;
 			}
-			i = find_term_char(fmt + i) + i + 1;
+			i = find_term_char(str + i) + i + 1;
 		}
-		printf("%c", fmt[i]);
-		i++;
+		ft_putchar_fd(str[i], 1);
+		if (str[i] != '\0')
+			out++;
 	}
-	printf("len: %d\n", out);
+	return (out);
 }
 
-int		ft_printf(char *str, ...)
+int		ft_printf(const char *str, ...)
 {
 	va_list	args;
 	t_list	*lst;
+	int		total_char;
 
 	lst = NULL;
 	va_start(args, str);
-	if (parsing_str(str, &lst) == -1)
+	if (parsing_str((char *)str, &lst) == -1)
 		return (-1);
 	if (get_param(lst, args) == -1)
 		return (-1);
@@ -56,52 +75,8 @@ int		ft_printf(char *str, ...)
 		return (-1);
 	if (apply_mod(lst) == -1)
 		return (-1);
-	test_print(str, lst);
 	va_end(args);
-	return (-1);
-}
-
-int main()
-{
-	printf("pr len: %d\n", printf("%c", '\0'));
-	ft_printf("%c", '\0');
-	printf("pr len: %d\n", printf("%c", 'a'));
-	ft_printf("%c", 'a');
-	/*
-	char *test = "hello %*.*d %.3d %-5d %u %p %c%s %%\n";
-	ft_printf(test, 5, 4, -10, 1, 4, 3, "n", 'a', "sapo");
-	printf("hislen: %d\n", printf(test,  5, 4, -10, 1, 4, 3, "n", 'a', "sapo"));
-	printf("hislen: %d\n", printf("li%-5cli\n", 'a'));
-	printf("hislen: %d\n", printf("%c", '\0'));
-	ft_printf("%c", '\0');
-	ft_printf("li%-5cli\n", 'a');
-	*/
-	//ft_printf("%05d\n", -3);
-	//ft_printf("mine:%5c\n", '\0');
-	//printf("hiss:%5c\n", '\0');
-	/*printf("%.0s\n", "heelo");
-	printf("%.0d\n", 0);
-	printf ("%-.10s\n", "hey");
-	printf("%c\n", '\0');
-	int a = printf("%d %% a\n", 30);
-	printf("%d\n", a);
-	printf("%d\n", printf("%c\n", '-'));*/
-	//printf("\ntest : %*.*d\n", 10, 6, 12359);
-	/*printf("");
-	printf("%%");
-	printf("%5.%");*/
-
-	/* -- tests for parsing var string -- */
-	
-	//char *test = "%*.d %u %p %c %%\n";
-	//wtf is this sh*t - rpi
-	//printf("%d\n");
-	//printf("%d\n");
-
-	/*char *str1 = ultoa_base((unsigned long) test, "0123456789abcdef");
-	char *str2 = ft_strjoin("0x", str1);
-	printf("lol: %s\n", str2);*/
-	
-	//printf("%d %d", find(test , '%'), find_term_char(test + 1));
-	//ft_printf("p", "hello my friend", 4, 5);
+	total_char = print_char((char *)str, lst);
+	ft_lstclear(&lst, &clear_block);
+	return (total_char);
 }

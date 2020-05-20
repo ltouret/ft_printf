@@ -6,7 +6,7 @@
 /*   By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/19 16:08:01 by ltouret           #+#    #+#             */
-/*   Updated: 2020/05/19 16:20:06 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/05/20 15:39:03 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int		apply_wid(t_list *current, int zero, int minus)
 		ft_find("%-0", block->raw_block[i]) != -1)
 		i++;
 	wid = ft_atoi(&(block->raw_block[i]));
-	if (ft_find("cdiuxXp%", block->type) != -1)
-		if (int_wid(block, wid, minus,  zero) == -1)
+	if (ft_find("cdiuxXp", block->type) != -1)
+		if (int_wid(block, wid, minus, zero) == -1)
 			return (-1);
 	if (ft_find("s", block->type) != -1)
 		if (str_wid(block, wid, minus) == -1)

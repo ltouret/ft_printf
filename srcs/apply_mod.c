@@ -6,13 +6,11 @@
 /*   By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 19:55:21 by ltouret           #+#    #+#             */
-/*   Updated: 2020/05/19 16:27:06 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/05/20 15:33:09 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-// TODO ERASE COMMENTS AND PRINTFS AND ADD apply_mod
 
 int		replace_wldcard(t_list *current, int i, int wild_index)
 {
@@ -35,7 +33,6 @@ int		replace_wldcard(t_list *current, int i, int wild_index)
 	free(tmp2);
 	free(((t_block*)current->content)->raw_block);
 	((t_block*)current->content)->raw_block = tmp;
-	printf("replace_wldcard: %s\n", ((t_block*)current->content)->raw_block);
 	return (1);
 }
 
@@ -66,7 +63,7 @@ void	get_flags(t_list *current, int *zero, int *minus)
 	block = ((t_block*)current->content)->raw_block;
 	while (*block)
 	{
-		if (*block == '%') // why tf continue cant be used here
+		if (*block == '%')
 			;
 		else if (*block == '0')
 			*zero = 1;
@@ -79,7 +76,7 @@ void	get_flags(t_list *current, int *zero, int *minus)
 	return ;
 }
 
-int		apply_mod(t_list *lst) // this goes to apply_mod.c
+int		apply_mod(t_list *lst)
 {
 	int	zero;
 	int	minus;
@@ -97,5 +94,5 @@ int		apply_mod(t_list *lst) // this goes to apply_mod.c
 			return (-1);
 		lst = lst->next;
 	}
-	return 1;
+	return (1);
 }

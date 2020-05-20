@@ -6,7 +6,7 @@
 /*   By: leet <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/15 19:31:08 by leet              #+#    #+#             */
-/*   Updated: 2020/05/16 18:15:59 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/05/20 18:18:09 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,15 @@
 int		find_term_char(char *str)
 {
 	int		i;
-	char	*term = "cspdiuxX%";
 
 	i = -1;
 	while (str[++i])
-		if (ft_find(term, str[i]) != -1)
+		if (ft_find("cspdiuxX%", str[i]) != -1)
 			return (i);
 	return (-1);
 }
 
-char	*str_index_dup(char *str, int start, int end) // add length protection + start bgger that end error + start bigger than strlen + malloc error
+char	*str_index_dup(char *str, int start, int end)
 {
 	char	*new_str;
 	int		str_size;
@@ -45,13 +44,13 @@ char	*str_index_dup(char *str, int start, int end) // add length protection + st
 	return (NULL);
 }
 
-char	get_type(char *block)
+char	get_type(char *raw_block)
 {
 	int		len;
 	char	c;
 
-	len = ft_strlen(block);
-	c = block[--len];
+	len = ft_strlen(raw_block);
+	c = raw_block[--len];
 	return (c);
 }
 
@@ -64,29 +63,29 @@ void	init_cont(t_list *current)
 	((t_block*)current->content)->converted = NULL;
 }
 
-int		parsing_str(char *fmt, t_list **lst)
+int		parsing_str(char *str, t_list **lst)
 {
 	char	*tmp;
 	t_list	*current;
 	t_block	*block;
 
-	while (*fmt)
+	while (*str)
 	{
-		if (*fmt == '%')
+		if (*str == '%')
 		{
 			if (!(block = malloc(sizeof(t_block))))
 				return (-1);
 			if (!(current = ft_lstnew((void *)block)))
 				return (-1);
 			init_cont(current);
-			tmp = str_index_dup(fmt, ft_find(fmt, '%'),
-			find_term_char(fmt + 1) + 2);
+			tmp = str_index_dup(str, ft_find(str, '%'),
+				find_term_char(str + 1) + 2);
 			((t_block*)current->content)->raw_block = tmp;
 			((t_block*)current->content)->type = get_type(tmp);
 			ft_lstadd_back(lst, current);
-			fmt = fmt + find_term_char(fmt + 1) + 1;
+			str = str + find_term_char(str + 1) + 1;
 		}
-		fmt++;
+		str++;
 	}
 	return (1);
 }

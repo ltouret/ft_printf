@@ -6,22 +6,22 @@
 #    By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/20 13:00:20 by ltouret           #+#    #+#              #
-#    Updated: 2020/05/19 16:25:50 by ltouret          ###   ########.fr        #
+#    Updated: 2020/05/20 18:26:49 by ltouret          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 
 SRCS = srcs/ft_printf.c srcs/utoa.c srcs/convert_func.c srcs/convert_func2.c\
-srcs/convert.c srcs/get_param.c srcs/parsing_str.c srcs/apply_mod.c\
-srcs/apply_pre.c srcs/apply_wid.c srcs/apply_wid_int.c
+		srcs/convert.c srcs/get_param.c srcs/parsing_str.c srcs/apply_mod.c\
+		srcs/apply_pre.c srcs/apply_wid.c srcs/apply_wid_int.c
 
 OBJS = ${SRCS:.c=.o}
 
 CC		= cc
 RM		= rm -f
 
-CFLAGS = -Wall -Wextra -Werror #-g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 
 .c.o:
 		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
@@ -39,17 +39,8 @@ clean:
 
 fclean:	clean
 		${RM} ${NAME}
-		${RM} libft/libft.a
+		make -C libft/ fclean
 
 re:		fclean all
-
-test:	${OBJS}
-		make -C libft/ bonus 
-		cp libft/libft.a ./${NAME}
-		ar rcs ${NAME} ${OBJS}
-		${CC} ${CFLAGS} libftprintf.a
-		#diff -c dif.txt dif2.txt
-		@echo "\n--------- OUTPUT : ---------"
-		@./a.out
 
 .PHONY: all clean fclean re
