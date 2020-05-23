@@ -6,13 +6,13 @@
 /*   By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 18:03:55 by ltouret           #+#    #+#             */
-/*   Updated: 2020/05/20 18:21:52 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/05/23 20:28:22 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	clear_block(void *content)
+static void			free_block(void *content)
 {
 	t_block		*block;
 
@@ -30,36 +30,74 @@ void	clear_block(void *content)
 	free(block);
 }
 
-int		print_char(char *str, t_list *lst)
+static t_block		*skp_char(t_list *lst, char *str, int *i,
+		int *total_char)
 {
-	int		i;
-	int		out;
-
-	i = -1;
-	out = 0;
-	while (++i < ft_strlen(str))
+	while (str[*i] && str[*i] != '%')
 	{
-		while (str[i] == '%' && str[i++])
-		{
-			if (lst)
-			{
-				ft_putstr_fd(((t_block*)lst->content)->converted, 1);
-				out += ft_strlen(((t_block*)lst->content)->converted);
-				if (*((t_block*)lst->content)->converted == '\0' &&
-					((t_block*)lst->content)->type == 'c')
-					out++;
-				lst = lst->next;
-			}
-			i = find_term_char(str + i) + i + 1;
-		}
-		ft_putchar_fd(str[i], 1);
-		if (str[i] != '\0')
-			out++;
+		ft_putchar_fd(str[(*i)++], 1);
+		(*total_char)++;
 	}
-	return (out);
+	if (lst)
+		return (lst->content);
+	else
+		return (NULL);
 }
 
-int		ft_printf(const char *str, ...)
+static void			print_conv(t_block *block, int *total_char)
+{
+	int		i;
+
+	i = 0;
+	if (block->type == 'c')
+	{
+		while (block->raw_block[i] && block->raw_block[i] != '-')
+			i++;
+		if (block->raw_block[i] == '-')
+		{
+			if ((*(int *)block->param) == '\0' && (*total_char)++)
+				ft_putchar_fd('\0', 1);
+			ft_putstr_fd(block->converted, 1);
+		}
+		else
+		{
+			ft_putstr_fd(block->converted, 1);
+			if ((*(int *)block->param) == '\0' && (*total_char)++)
+				ft_putchar_fd('\0', 1);
+		}
+	}
+	else
+		ft_putstr_fd(block->converted, 1);
+	*total_char += ft_strlen(block->converted);
+}
+
+static int			print_char(char *str, t_list *lst)
+{
+	t_block		*block;
+	int			total_char;
+	int			i;
+
+	total_char = 0;
+	i = 0;
+	while (str && str[i])
+	{
+		block = skp_char(lst, str, &i, &total_char);
+		if (str[i] == '%')
+		{
+			print_conv(block, &total_char);
+			if (str[++i] == '%')
+				;
+			else
+				while (str[i] && ft_find("cspdiuxX%", str[i]) == -1)
+					i++;
+			i++;
+			lst = lst->next;
+		}
+	}
+	return (total_char);
+}
+
+int					ft_printf(const char *str, ...)
 {
 	va_list	args;
 	t_list	*lst;
@@ -77,6 +115,6 @@ int		ft_printf(const char *str, ...)
 		return (-1);
 	va_end(args);
 	total_char = print_char((char *)str, lst);
-	ft_lstclear(&lst, &clear_block);
+	ft_lstclear(&lst, &free_block);
 	return (total_char);
 }

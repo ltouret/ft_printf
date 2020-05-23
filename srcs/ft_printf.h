@@ -6,7 +6,7 @@
 /*   By: ltouret <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 17:25:36 by ltouret           #+#    #+#             */
-/*   Updated: 2020/05/20 18:23:25 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/05/23 20:26:15 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct		s_block
 	void	*param;
 	char	type;
 }					t_block;
-int					print_char(char *str, t_list *lst);
 int					get_pre(t_block *block);
 int					wid_len(t_block *block);
 void				handle_minus_wid(t_block *block, int zero);
