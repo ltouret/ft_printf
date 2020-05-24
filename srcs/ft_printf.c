@@ -6,37 +6,19 @@
 /*   By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 18:03:55 by ltouret           #+#    #+#             */
-/*   Updated: 2020/05/23 20:28:22 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/05/24 20:46:49 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void			free_block(void *content)
-{
-	t_block		*block;
-
-	block = content;
-	if (block->raw_block)
-		free(block->raw_block);
-	if (block->param && block->type != 's' && block->type != 'p')
-		free(block->param);
-	if (block->wildcard[0])
-		free(block->wildcard[0]);
-	if (block->wildcard[1])
-		free(block->wildcard[1]);
-	if (block->converted)
-		free(block->converted);
-	free(block);
-}
-
-static t_block		*skp_char(t_list *lst, char *str, int *i,
-		int *total_char)
+static t_block		*skp_char(t_list *lst, const char *str, int *i,
+		int *nb_char)
 {
 	while (str[*i] && str[*i] != '%')
 	{
 		ft_putchar_fd(str[(*i)++], 1);
-		(*total_char)++;
+		(*nb_char)++;
 	}
 	if (lst)
 		return (lst->content);
@@ -44,34 +26,43 @@ static t_block		*skp_char(t_list *lst, char *str, int *i,
 		return (NULL);
 }
 
-static void			print_conv(t_block *block, int *total_char)
+static void			print_special(t_block *block, int *total_char)
 {
 	int		i;
 
 	i = 0;
-	if (block->type == 'c')
+	while (block->raw_block[i] && block->raw_block[i] != '-')
+		i++;
+	if (block->raw_block[i] == '-')
 	{
-		while (block->raw_block[i] && block->raw_block[i] != '-')
-			i++;
-		if (block->raw_block[i] == '-')
+		if ((*(int *)block->param) == '\0')
 		{
-			if ((*(int *)block->param) == '\0' && (*total_char)++)
-				ft_putchar_fd('\0', 1);
-			ft_putstr_fd(block->converted, 1);
+			ft_putchar_fd('\0', 1);
+			(*total_char)++;
 		}
-		else
+		ft_putstr_fd(block->converted, 1);
+	}
+	else
+	{
+		ft_putstr_fd(block->converted, 1);
+		if ((*(int *)block->param) == '\0')
 		{
-			ft_putstr_fd(block->converted, 1);
-			if ((*(int *)block->param) == '\0' && (*total_char)++)
-				ft_putchar_fd('\0', 1);
+			ft_putchar_fd('\0', 1);
+			(*total_char)++;
 		}
 	}
+}
+
+static void			print_conv(t_block *block, int *total_char)
+{
+	if (block->type == 'c')
+		print_special(block, total_char);
 	else
 		ft_putstr_fd(block->converted, 1);
 	*total_char += ft_strlen(block->converted);
 }
 
-static int			print_char(char *str, t_list *lst)
+static int			print_char(const char *str, t_list *lst)
 {
 	t_block		*block;
 	int			total_char;
@@ -105,6 +96,7 @@ int					ft_printf(const char *str, ...)
 
 	lst = NULL;
 	va_start(args, str);
+	total_char = 0;
 	if (parsing_str((char *)str, &lst) == -1)
 		return (-1);
 	if (get_param(lst, args) == -1)
