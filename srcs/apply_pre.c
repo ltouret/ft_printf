@@ -6,7 +6,7 @@
 /*   By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 22:36:51 by ltouret           #+#    #+#             */
-/*   Updated: 2020/05/24 21:45:56 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/05/24 22:22:40 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int		apply_pre(t_list *current)
 	if (ft_find("cdiuxXp", block->type) != -1)
 		if (int_pre(block, pre) == -1)
 			return (-1);
-	if (ft_find("s%", block->type) != -1)
+	if (ft_find("s", block->type) != -1)
 		if (str_pre(block, pre) == -1)
 			return (-1);
 	return (1);
