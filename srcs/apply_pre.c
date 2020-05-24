@@ -6,7 +6,7 @@
 /*   By: ltouret <ltouret@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/16 22:36:51 by ltouret           #+#    #+#             */
-/*   Updated: 2020/05/17 18:53:42 by ltouret          ###   ########.fr       */
+/*   Updated: 2020/05/24 21:45:56 by ltouret          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,14 @@ int		str_pre(t_block *block, int precision)
 	char	*tmp;
 
 	len = ft_strlen(block->converted);
-	if (len > precision && block->type == 's' && precision >= 0)
+	if (block->param == NULL && precision < 6)
+	{
+		if (!(tmp = ft_strdup("")))
+			return (-1);
+		free(block->converted);
+		block->converted = tmp;
+	}
+	else if (len > precision && block->type == 's' && precision >= 0)
 	{
 		if (!(tmp = malloc(sizeof(char) * (precision + 1))))
 			return (-1);
